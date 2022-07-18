@@ -2,10 +2,6 @@
 ---
 name: action-github-metadata
 description: Add some extra ENV vars for metadata about the Github repo and action
-inputs:
-  environment:
-    description: The environment to build and deploy or open/update a PR for
-    required: true
 runs:
   using: composite
   steps:
