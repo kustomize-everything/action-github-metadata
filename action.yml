@@ -1,0 +1,27 @@
+
+---
+name: action-github-metadata
+description: Add some extra ENV vars for metadata about the Github repo and action
+inputs:
+  environment:
+    description: The environment to build and deploy or open/update a PR for
+    required: true
+runs:
+  using: composite
+  steps:
+    # These variables are re-used by the run steps.
+    - name: Shared ENV Setup
+      shell: bash
+      working-directory: ${{ inputs.working-directory }}
+      run: |
+        GITHUB_REF_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/tree/${GITHUB_REF}"
+        echo "GITHUB_REF_URL=${GITHUB_REF_URL}" >> $GITHUB_ENV
+
+        GITHUB_REPOSITORY_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}"
+        echo "GITHUB_REPOSITORY_URL=${GITHUB_REPOSITORY_URL}" >> $GITHUB_ENV
+
+        GITHUB_SHA_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}"
+        echo "GITHUB_SHA_URL=${GITHUB_SHA_URL}" >> $GITHUB_ENV
+
+        GITHUB_WORKFLOW_RUN_URL="$GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+        echo "GITHUB_WORKFLOW_RUN_URL=${GITHUB_WORKFLOW_RUN_URL}" >> $GITHUB_ENV
